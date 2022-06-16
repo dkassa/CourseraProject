@@ -7,9 +7,12 @@ import DishDetail from './DishdetailComponent';
 import Favorites from './FavoriteComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
+import Feed from './Feeddetail'
+import configureStore from '../redux/configureStore';
+
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postComment, postFeedback, fetchDishes, fetchComments, fetchPromos, fetchLeaders, loginUser, addProfile, logoutUser, fetchFavorites, postFavorite, deleteFavorite } from '../redux/ActionCreators';
+import { postComment, postFeedback,fetchDishes,fetchComments, fetchPromos, fetchLeaders, loginUser, addProfile, logoutUser, fetchFavorites, postFavorite, deleteFavorite, signupUser, fetchFeedback } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -20,7 +23,9 @@ const mapStateToProps = state => {
       promotions: state.promotions,
       leaders: state.leaders,
       favorites: state.favorites,
-      auth: state.auth
+      auth: state.auth,
+      feedbacks:state.feedbacks,
+      users:state.users
     }
 }
 
@@ -33,10 +38,11 @@ const mapDispatchToProps = (dispatch) => ({
   fetchLeaders: () => dispatch(fetchLeaders()),
   postFeedback: (feedback) => dispatch(postFeedback(feedback)),
   loginUser: (creds) => dispatch(loginUser(creds)),
-  signupUser: (creds) => dispatch(addProfile(creds)),
+  signupUser: (creds) => dispatch(signupUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
   fetchFavorites: () => dispatch(fetchFavorites()),
   postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+  fetchFeedback:()=>dispatch(fetchFeedback()),
   deleteFavorite: (dishId) => dispatch(deleteFavorite(dishId))
 });
 
@@ -48,6 +54,7 @@ class Main extends Component {
     this.props.fetchPromos();
     this.props.fetchLeaders();
     this.props.fetchFavorites();
+   this.props.fetchFeedback();
   }
 
   render() {
@@ -55,6 +62,8 @@ class Main extends Component {
     const HomePage = () => {
       return(
         <Home dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+        dishes={this.props.dishes}
+        
           dishesLoading={this.props.dishes.isLoading}
           dishesErrMess={this.props.dishes.errMess}
           promotion={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}
@@ -118,7 +127,9 @@ class Main extends Component {
               <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
               <Route path="/menu/:dishId" component={DishWithId} />
               <PrivateRoute exact path="/favorites" component={() => <Favorites favorites={this.props.favorites} deleteFavorite={this.props.deleteFavorite} />} />
-              <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} />
+           
+              <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} feedbacks={this.props.feedbacks}/>} />
+              <Route exact path="/feedus" component={() => <Feed  fetchFeedback={this.props.fetchFeedback} feedbacks={this.props.feedbacks} />} />
               <Redirect to="/home" />
             </Switch>
           </CSSTransition>

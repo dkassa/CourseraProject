@@ -46,7 +46,7 @@ class Header extends Component {
     }
     handleSignup(event) {
         this.toggleModal2();
-        this.props.signupUser({username: this.username.value, password: this.password.value, firstname: this.firstname.value, lastname: this.lastname.value, admin:this.admin.value });
+        this.props.signupUser({username: this.username.value, password: this.password.value, firstname: this.firstname.value, lastname: this.lastname.value });
         event.preventDefault();
 
     }
@@ -90,6 +90,13 @@ class Header extends Component {
                                 <NavItem>
                                     <NavLink className="nav-link" to="/contactus">
                                         <span className="fa fa-address-card fa-lg"></span> Contact Us
+                                    </NavLink>
+                                </NavItem>
+
+
+                                <NavItem>
+                                    <NavLink className="nav-link" to="/feedus">
+                                        <span className="fa fa-address-card fa-lg"></span> Feed Us
                                     </NavLink>
                                 </NavItem>
                             </Nav>

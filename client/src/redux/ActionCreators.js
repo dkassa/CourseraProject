@@ -188,8 +188,31 @@ export const addLeaders = (leaders) => ({
     payload: leaders
 });
 
+
+export const requestFeedback = (feedback) => {
+    return {
+        type: ActionTypes.FEEDBACK_REQUEST,
+        payload:feedback
+    }
+}
+  
+export const recieveFeedback = (response) => {
+    return {
+        type: ActionTypes.FEEDBACK_SUCCESS,
+        payload:response
+    }
+}
+  
+export const feedbackError = (message) => {
+    return {
+        type: ActionTypes.FEEDBACK_FAILURE,
+        payload: message
+    }
+
+}
+
 export const postFeedback = (feedback) => (dispatch) => {
-        
+        //dispatch(requestFeedback(feedback))
     return fetch(baseUrl + 'feedback', {
         method: "POST",
         body: JSON.stringify(feedback),
@@ -211,8 +234,9 @@ export const postFeedback = (feedback) => (dispatch) => {
             throw error;
       })
     .then(response => response.json())
-    .then(response => { console.log('Feedback', response); alert('Thank you for your feedback!\n'+JSON.stringify(response)); })
-    .catch(error =>  { console.log('Feedback', error.message); alert('Your feedback could not be posted\nError: '+error.message); });
+    .then(response => dispatch(recieveFeedback(response)))
+    //{ console.log('Feedback', response); alert('Thank you for your feedback!\n'+JSON.stringify(response)); })
+    .catch((error) =>  { console.log('Feedback', error.message); alert('Your feedback could not be posted\nError: '+error.message); });
 };
 
 export const requestLogin = (creds) => {
@@ -283,41 +307,60 @@ export const addProfile = (user) => {
         type: ActionTypes.ADD_USER,
         payload: { user }
     }
-}/* 
+}
+
+export const requestSignup =(creds)=>{
+    return{
+        type:ActionTypes.SIGNUP_REQUEST,
+        payload:creds
+    }
+}
+
+export const Signupsucess=(resp)=>{
+    return{
+        type:ActionTypes.SIGNUP_SUCCESS,
+        payload:resp
+    }
+}
 export const signupError = (message) => {
     return {
         type: ActionTypes.SIGNUP_FAILURE,
         payload: message
     }
 }
-
 export const signupUser = (creds) => (dispatch) => {
     // We dispatch requestsignup to kickoff the call to the API
+    console.log(creds)
     dispatch(requestSignup(creds))
-
     return fetch(baseUrl + 'users/signup', {
         method: 'POST',
+        body: JSON.stringify(creds),
         headers: { 
             'Content-Type':'application/json' 
         },
-        body: JSON.stringify(creds)
+        credentials:'same-origin'
     })
     .then(response => {
+        console.log(response)
         if (response.ok) {
             return response;
         } else {
             var error = new Error('Error ' + response.status + ': ' + response.statusText);
             error.response = response;
+            console.log(error)
             throw error;
+            
         }
         },
         error => {
             throw error;
+            
         })
     .then(response => response.json())
     .then(response => {
         if (response.success) {
             // If signup was successful, set the token in local storage
+            localStorage.setItem('token',response.token)
             localStorage.setItem('creds', JSON.stringify(creds));            
         }
         else {
@@ -327,9 +370,11 @@ export const signupUser = (creds) => (dispatch) => {
         }
     })    
     .then(response => response.json())
-    .then(creds => dispatch(requestSignup(creds)))
+    .then(resp => 
+        
+        dispatch(Signupsucess(resp)))
     .catch(error => dispatch(signupError(error.message)))
-}; */
+}; 
 
 export const requestLogout = () => {
     return {
@@ -451,4 +496,43 @@ export const favoritesFailed = (errmess) => ({
 export const addFavorites = (favorites) => ({
     type: ActionTypes.ADD_FAVORITES,
     payload: favorites
+});
+
+
+
+export const fetchFeedback = () => (dispatch) => {
+    dispatch(feedbackLoading(true));
+
+    return fetch(baseUrl + 'feedback')
+        .then(response => {
+            if (response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(feedbacks => dispatch(addFeedback(feedbacks)))
+        .catch(error => dispatch(feedbackFailed(error.message)));
+}
+
+export const feedbackLoading = () => ({
+    type: ActionTypes.FEED_LOADING
+});
+
+export const feedbackFailed = (errmess) => ({
+    type: ActionTypes.FEED_FAILED,
+    payload: errmess
+});
+
+export const addFeedback = (feedbacks) => ({
+    type: ActionTypes.ADD_FEEDS,
+    payload: feedbacks
 });

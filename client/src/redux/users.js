@@ -7,7 +7,7 @@ const initialState = {
       username: '',
       password: '',
       admin: false
-    },    
+    }    
   }
   
   export const Users = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const initialState = {
       case ActionTypes.ADD_USER:
         return {
           ...state,
-          profile: action.payload.user
+          profile:action.payload.Users
         }      
       default:
         return state;

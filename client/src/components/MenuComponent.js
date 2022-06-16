@@ -18,8 +18,10 @@ import { baseUrl } from '../shared/baseUrl';
     }
 
     const Menu = (props) => {
+        //console.log(props.dishes)
 
         const menu = props.dishes.dishes.map((dish) => {
+            //console.log(dish)
             return (
                 <div key={dish._id} className="col-12 col-md-5 m-1">
                     <RenderMenuItem dish={dish} />

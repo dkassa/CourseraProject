@@ -43,7 +43,7 @@ const Favorites = (props) => {
     }
     else if (props.favorites.favorites !== null && props.favorites.favorites !== undefined && props.favorites.favorites.favorites !== null && props.favorites.favorites.favorites !== undefined) {
 
-        const favorites = props.favorites.favorites.favorites.map((dish) => {
+        const favorites = props.favorites.favorites.dishes.map((dish) => {
             return (
                 <div key={dish._id} className="col-12 mt-5">
                     <RenderMenuItem dish={dish} deleteFavorite={props.deleteFavorite} />
