@@ -9,6 +9,14 @@ const dishSchema = new Schema({
         required: true,
         unique: true
     },
+    quantity:{
+        type: Number,
+        min: 1,
+        default:''
+        
+        
+
+    },
     description: {
         type: String,
         required: true

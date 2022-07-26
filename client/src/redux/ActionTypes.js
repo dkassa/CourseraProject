@@ -37,3 +37,10 @@ export const FEED_FAILED = 'FEED_FAILED';
  
 export const FEED_LOADING = 'FEED_LOADING';
 export const ADD_FEEDS = "ADD_FEEDS";
+
+export const CARTS_FAILED = 'CARTS_FAILED';
+export const ADD_CARTS = 'ADD_CARTS';
+export const CARTS_LOADING='CARTS_LOADING';
+export const ADD_CARTSS='ADD_CARTSS';
+
+

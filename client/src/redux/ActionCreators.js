@@ -65,7 +65,7 @@ export const fetchDishes = () => (dispatch) => {
             throw errmess;
         })
         .then(response => response.json())
-        .then(dishes => dispatch(addDishes(dishes)))
+        .then(dishes =>dispatch(addDishes(dishes)))
         .catch(error => dispatch(dishesFailed(error.message)));
 }
 
@@ -82,6 +82,9 @@ export const addDishes = (dishes) => ({
     type: ActionTypes.ADD_DISHES,
     payload: dishes
 });
+
+
+
 
 export const fetchComments = () => (dispatch) => {
     return fetch(baseUrl + 'comments')
@@ -213,7 +216,7 @@ export const feedbackError = (message) => {
 
 export const postFeedback = (feedback) => (dispatch) => {
         //dispatch(requestFeedback(feedback))
-    return fetch(baseUrl + 'feedback', {
+    return fetch(baseUrl + 'feedbacks', {
         method: "POST",
         body: JSON.stringify(feedback),
         headers: {
@@ -536,3 +539,126 @@ export const addFeedback = (feedbacks) => ({
     type: ActionTypes.ADD_FEEDS,
     payload: feedbacks
 });
+
+
+export const postCart = (dishId) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'carts/' + dishId, {
+        method: "POST",
+        body: JSON.stringify({"_id": dishId}),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(carts => { console.log('Carts Added', carts); dispatch(addCarts(carts)); })
+    .catch(error => dispatch(cartsFailed(error.message)));
+}
+
+export const cartsLoading = () => ({
+    type: ActionTypes.CARTS_LOADING
+});
+
+
+export const cartsFailed = (errmess) => ({
+    type: ActionTypes.CARTS_FAILED,
+    payload: errmess
+});
+
+export const addCarts = (carts) => ({
+    type: ActionTypes.ADD_CARTS,
+    payload: carts
+});
+
+
+export const fetchCarts = () => (dispatch) => {
+    dispatch(cartsLoading(true));
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'carts', {
+        headers: {
+            'Authorization': bearer
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        }
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error => {
+        var errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response => response.json())
+    .then(carts => dispatch(addCarts(carts)))
+    .catch(error => dispatch(favoritesFailed(error.message)));
+}
+
+
+export const deleteCart = (cartId) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'carts/' + cartId, {
+        method: "DELETE",
+        headers: {
+          'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            throw error;
+      })
+    .then(response => response.json())
+    .then(carts => { console.log('Cart Deleted', carts); dispatch(addCarts(carts)); })
+    .catch(error => dispatch(cartsFailed(error.message)));
+};
+
+
+export const FetchHcart=()=>(dispatch)=>{
+    
+   
+    return addToCart()
+}
+
+export const addToCart = (storagecart) => ({
+    type: ActionTypes.ADD_CARTSS,
+    payload: storagecart
+});
+
+
+
+
+
+

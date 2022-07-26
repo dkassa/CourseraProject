@@ -23,6 +23,7 @@ function RenderCard({ item, isLoading, errMess }) {
             exitTransform: "scale(0.5) translateY(-50%)"
           }}
         >
+          
           <Card>
             <CardImg src={baseUrl + item.image} alt={item.name} />
             <CardBody>
@@ -38,7 +39,6 @@ function RenderCard({ item, isLoading, errMess }) {
 }
 function Home(props) {
 
-console.log(props.dish)
 console.log(props.leader)
 console.log(props.promotion)
 

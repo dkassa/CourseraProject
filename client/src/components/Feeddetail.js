@@ -69,7 +69,7 @@ import alberto from './images/alberto.png';
                         </div>
                     </div>
                     <div className="row">
-                        {Feed}
+                        <div className="col-12 col-md align-items-center justify-content-center">{Feed}</div>
                     </div>
                 </div>
             );

@@ -99,13 +99,19 @@ class Header extends Component {
                                         <span className="fa fa-address-card fa-lg"></span> Feed Us
                                     </NavLink>
                                 </NavItem>
+
+                                <NavItem>
+                                    <NavLink className="nav-link" to="/Carttwo">
+                                        <span className="fa fa-address-card fa-lg"></span> Carttwo
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
                                 <NavItem>
                                     { !this.props.auth.isAuthenticated ?
                                         <div>
                                             <Button outline onClick={this.toggleModal2} >
-                                                <span className="fa-lg"></span> Sign up
+                                                <span className="fa fa-sign-up fa-lg"></span> Sign up
                                                 {this.props.auth.isFetching ?
                                                     <span className="fa fa-spinner fa-pulse fa-fw"></span>
                                                     : null
@@ -121,7 +127,7 @@ class Header extends Component {
                                         </div>
                                         :
                                         <div>
-                                        <div className="navbar-text mr-3">{this.props.auth.user.username}</div>
+                                        <div className="navbar-text mr-3">hello {this.props.auth.user.username}</div>
                                         <Button outline onClick={this.handleLogout}>
                                             <span className="fa fa-sign-out fa-lg"></span> Logout
                                             {this.props.auth.isFetching ?
@@ -132,6 +138,12 @@ class Header extends Component {
                                         </div>
                                     }
 
+                                </NavItem>
+
+                                <NavItem>
+                                    <NavLink className="nav-link" to="/carts">
+                                        <span className="fa fa-shopping-cart fa-lg"></span> Cart
+                                    </NavLink>
                                 </NavItem>
                             </Nav>
                         </Collapse>

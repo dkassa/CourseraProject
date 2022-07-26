@@ -25,6 +25,12 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
                                         <span className="fa fa-heart-o"></span>
                                     }
                                 </Button>
+
+                                <Button outline color="primary" onClick={() =>localStorage.setItem('carte',JSON.stringify(dish))  }>
+                                    
+                                        <span className="fa fa-shopping-cart">Carttwo</span>
+                         
+                                </Button>
                             </CardImgOverlay>
                             <CardBody>
                                 <CardTitle>{dish.name}</CardTitle>
@@ -44,6 +50,7 @@ import { FadeTransform, Fade, Stagger } from 'react-animation-components';
                     <h4>Comments</h4>
                     <ul className="list-unstyled">
                         <Stagger in>
+                            
                             {comments.map((comment) => {
                                 return (
                                     <Fade in key={comment._id}>
