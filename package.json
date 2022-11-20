@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  
+  "homepage": "https://dkassa.github.io/CourseraProject",
   "dependencies": {
     "assert": "^1.4.1",
     "cookie-parser": "~1.4.4",
