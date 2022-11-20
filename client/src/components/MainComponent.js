@@ -163,7 +163,7 @@ class Main extends Component {
         <TransitionGroup>
           <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
             <Switch>
-              <Route path="/CourseraProject" component={HomePage} />
+              <Route path="/home" component={HomePage} />
               <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
               <Route exact path='/carts' component={Cartpage} />
               
