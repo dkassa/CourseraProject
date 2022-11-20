@@ -1,12 +1,11 @@
 {
+  "homepage": "https://dkassa.github.io/CourseraProject",
   "name": "confusionserver",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
-  
-  "homepage": "https://dkassa.github.io/CourseraProject",
   "dependencies": {
     "assert": "^1.4.1",
     "cookie-parser": "~1.4.4",
